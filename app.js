@@ -24,9 +24,38 @@ const app = () =>{
 
     //play sound
     play.addEventListener("click",()=>{
-        song.play()
+        checkPlaying(song);
     });
-}
 
+
+    //Create function to stop and play sounds
+    const checkPlaying = song =>{
+        if(song.paused){
+            song.play();
+            play.src="svg/pause.svg"
+            video.play()
+        }
+        else{
+            song.pause()
+            play.src="svg/play.svg"
+            video.pause()
+        }
+    }
+
+//Animate circle
+song.ontimeupdate = ()=>{
+    let currentTime=song.currentTime;
+    let elapsed = fakeDuration-currentTime;
+    let seconds=Math.floor(elapsed % 60);
+    let minutes= Math.floor(elapsed/60);
+
+
+    //Animate circle
+    let progress = outlineLength - (currentTime/fakeDuration) * outlineLength;
+    outline.style.strokeDashoffset=progress;
+    //
+    timeDisplay.textContent=`${minutes}:${seconds}`;
+}
+};
 
 app();
