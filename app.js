@@ -21,7 +21,14 @@ const app = () =>{
     outline.style.strokeDasharray=outlineLength;
     outline.style.strokeDashoffset=outlineLength;
 
-    
+    //Pick different sounds
+    sounds.forEach(sound =>{
+        sound.addEventListener('click',function(){
+            song.src=this.getAttribute('data-sound');
+            video.src=this.getAttribute('data-video');
+            checkPlaying(song);
+        })
+    })
 
     //play sound
     play.addEventListener("click",()=>{
@@ -32,7 +39,7 @@ const app = () =>{
     timeSelect.forEach(option=>{
         option.addEventListener('click',function(){
             fakeDuration = this.getAttribute('data-time');
-            console.log(fakeDuration);
+            song.currentTime=0;
             timeDisplay.textContent=`${Math.floor(fakeDuration/60)}:${Math.floor(fakeDuration%60)}`;
         });
     });
@@ -54,7 +61,9 @@ const app = () =>{
 //Animate circle
 song.ontimeupdate = ()=>{
     let currentTime=song.currentTime;
+    
     let elapsed = fakeDuration-currentTime;
+    console.log(elapsed)
     let seconds=Math.floor(elapsed % 60);
     let minutes= Math.floor(elapsed/60);
 
